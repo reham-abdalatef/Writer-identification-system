@@ -11,39 +11,43 @@ from LBP import lbp
 from plotting import plotList
 import time
 
-start = time.time()
 
 
-#for j in range (1,6):
-j = 1
-print("=================test case ",j,"======================")
-images = [cv2.imread(file) for file in glob.glob("tests/t"+str(j)+"/training/*.png")] 
-features=[]
-label=[]
-trainingSize = len(images)
-for i in range(0,trainingSize):
-    features.append(lbp(images[i]))
-    label.append((i//2)+1)
-    
-'''
-for i in range(0,len(label)):
-    plotList(features[i])
-    print(label[i])
-'''
-
-svclassifier = SVC(kernel='linear')  
-svclassifier.fit(Linefeatures, label)
-    
-    
-testimages= [cv2.imread(file) for file in glob.glob("tests/t"+str(j)+"/test/*.png")] 
-testSize = len(testimages)
-for i in range (0,testSize):
-    print(svclassifier.predict([lbp(testimages[i])]))
-    
-    
-end = time.time()
-print(end - start)
+for testId in range (1,6):
+    start = time.time()
+    print("=================test case ",testId,"======================")
+    images = [cv2.imread(file) for file in glob.glob("tests/t"+str(testId)+"/training/*.png")] 
+    features=[]
+    label=[]
+    trainingSize = len(images)
+    for i in range(0,trainingSize):
+        features.append(lbp(images[i]))
+        label.append((i//2)+1)
         
+    '''
+    for i in range(0,len(label)):
+        plotList(features[i])
+        print(label[i])
+    '''
+        
+        
+    testimages= [cv2.imread(file) for file in glob.glob("tests/t"+str(testId)+"/test/*.png")] 
+    testSize = len(testimages)
+    for i in range (0,testSize):
+        test = lbp(testimages[i])
+        bstDist = np.linalg.norm(np.asarray(test) - np.asarray(features[0]))
+        bstPredict = label[0]
+        for j in range(1,trainingSize):
+            nwDist = np.linalg.norm(np.asarray(test)-np.asarray(features[j]))
+            if nwDist < bstDist:
+                bstDist = nwDist.copy()
+                bstPredict = label[j]
+        print(bstPredict)
+        
+        
+    end = time.time()
+    print(end - start)
+            
         
         
         
