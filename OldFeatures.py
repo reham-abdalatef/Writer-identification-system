@@ -4,14 +4,12 @@ Created on Wed Dec 19 23:36:48 2018
 
 @author: Reham Abdallatef
 """
-
-
 from __future__ import division
 from numpy import*
 import cv2
 import numpy as np
 import math
-
+import matplotlib.pyplot as plt
 
 
 #-------------------------------------------------------
@@ -138,6 +136,9 @@ def ExtractF7AndF8(img,f2):
         distance = end - start 
         if distance != 0 and start < end:
             distances.append(end-start)
+        
+    if len(distances) == 0 :
+        return (0,0)
     f7 = median(distances)
     f8 = f2 / f7
     return f7,f8
@@ -170,8 +171,8 @@ def ExtractF9AndF10(image):
             p0=[math.log(1),math.log(n_white_pix)-math.log(x)]
         elif x==49:
             p3=[math.log(49),math.log(n_white_pix)-math.log(x)]
-            if p2==0 :
-                p2=[(p3[0]- p1[0]),(p3[1]+(p1[1]-p3[1]))]
+            if p2==0 or p1==p2 :
+                p2=[p1[0]+(p3[0]- p1[0]),(p3[1]+(p1[1]-p3[1]))]
         elif p1 !=0 and p2==0 and int(math.log(n_white_pix)-math.log(x))!= past :
             p2=[math.log(x),math.log(n_white_pix)-math.log(x)]
         elif p0 != 0 and p1 ==0 and int(math.log(n_white_pix)-math.log(x))!=past:
@@ -180,15 +181,21 @@ def ExtractF9AndF10(image):
     #print (math.log(x),math.log(n_white_pix)-math.log(x))
     #cv2.imshow('dilated',img_dilation)
     #cv2.waitKey(0)
-   # plt.scatter(XX, YY)
-    #plt.plot([p0[0],p1[0]],[p0[1],p1[1]], 'k-')
-    #plt.plot([p1[0],p2[0]],[p1[1],p2[1]], 'k-')
-    #plt.plot([p2[0],p3[0]],[p2[1],p3[1]], 'k-')
-    #plt.show()
-    #print(p0)
-    #print(p1)
-    #print(p2)
-    #print(p3)
+    if p3[0]== p2[0]:
+        p2[0]=p3[0]-p1[0]
+    if p1[0]==p2[0]:
+        p1[0]=p1[0]-0.3
+    '''
+    plt.scatter(XX, YY)
+    plt.plot([p0[0],p1[0]],[p0[1],p1[1]], 'k-')
+    plt.plot([p1[0],p2[0]],[p1[1],p2[1]], 'k-')
+    plt.plot([p2[0],p3[0]],[p2[1],p3[1]], 'k-')
+    plt.show()
+    print(p0)
+    print(p1)
+    print(p2)
+    print(p3)
+    '''
     f9=(p1[1]-p2[1])/(p1[0]-p2[0])
     f10=(p2[1]-p3[1])/(p2[0]-p3[0])
     
@@ -251,7 +258,21 @@ def ExtractF11(img):
     f11=getSlant(img)
     print(f11)
     return f11
-
+    
+def WIUTL(img):
+    countLines=SplitLines(img)
+    Linefeatures=[]
+    for counter1 in range(0,countLines):
+        line = cv2.imread(str(counter1)+".png",0)
+        #print("line"+str(x)+".png")
+        #cv2.imshow('dilated',line)
+        #cv2.waitKey(0)
+        (f1,f2,f3,f4,f5,f6)=ExtractF1toF6(line)
+        (f7,f8)=ExtractF7AndF8(line,f2)
+        line = cv2.imread(str(counter1)+".png")
+        (f9,f10)= ExtractF9AndF10(line)
+        Linefeatures.append([f5,f6,f8,f9])
+    return Linefeatures
 #------------------------ END OF Functions -----------------------------------------------
        
  
