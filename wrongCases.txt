@@ -1,0 +1,62 @@
+run #1
+
+expected = 3 predicted = 2
+['550', '062', '348']
+
+expected = 3 predicted = 2
+['300', '544', '338']
+
+expected = 1 predicted = 2
+['544', '243', '239']
+
+expected = 3 predicted = 1
+['246', '634', '293']
+
+
+
+
+run #2 , random.seed(100)
+
+expected = 3 predicted = 2
+['390', '291', '113']
+
+
+
+run #3 , random.seed(102)
+
+expected = 3 predicted = 2       ===3===
+['272', '671', '348']
+
+expected = 3 predicted = 2       ===13===
+['155', '455', '348']
+
+
+
+run #4, random.seed(103) , bins = 5 , radius = 4
+
+
+expected = 1 predicted = 3       ==21==
+['087', '151', '352']
+
+
+
+run #5, random.seed(103) , bins = 8 , radius = 4
+
+expected = 2 predicted = 3       ==123==
+['087', '213', '587']
+
+expected = 3 predicted = 2	===176===
+['343', '025', '090']
+
+expected =1 predicted = 2 	===186===
+['090', '587', '243'] 
+
+expected = 3 predicted = 1  	===233===
+['297', '497', '338']
+
+expected = 2 predicted = 1      ===246===
+['126', '090', '107']
+
+expected = 3 predicted = 2      ===468===
+['634', '110', '348']
+
