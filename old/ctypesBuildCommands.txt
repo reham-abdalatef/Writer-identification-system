@@ -1,0 +1,5 @@
+g++ -c -fPIC LBP.cpp -o LBP.o
+g++ -shared -Wl,-soname,libLBP.so -o libLBP.so  LBP.o
+
+del /f LBP.o
+del /f libLBP.so
