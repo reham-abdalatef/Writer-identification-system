@@ -38,7 +38,7 @@ for testId in range (1,testCount + 1):
     
     #call the testing module
     testImage = cv2.imread("data/"+ folderName +"/test.PNG")
-    predict = test(testImage[900:2860, 20:2479],features,label)
+    predict = test(crop(testImage),features,label)
     
     #print prediction and time
     print(predict,file=open("results.txt", "a"))
