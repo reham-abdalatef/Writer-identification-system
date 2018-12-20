@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Dec 19 23:34:49 2018
-
 @author: Reham Abdallatef
 """
 from __future__ import division
@@ -12,7 +11,7 @@ import cv2
 def croping(img):
     imgray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     ret,thresh = cv2.threshold(imgray,127,255,0)
-    contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    immg, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     width=[]
     hight=[]
     rows=[]
