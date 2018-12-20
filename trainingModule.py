@@ -1,5 +1,6 @@
 import cv2
 from featuresModule import lbp
+from preprocessingModule import crop
 import glob
 
 def train(folderName):
@@ -12,7 +13,7 @@ def train(folderName):
     for i in range(1,4):
         images = [cv2.imread(file) for file in glob.glob("data/"+folderName+ "/" +str(i)+"/*.PNG")]
         for img in images:
-            features.append(lbp(img[900:2860, 20:2479]))
+            features.append(lbp(crop(img)))
             label.append(i)
             
     return features, label
